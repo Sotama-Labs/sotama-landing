@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.vercel
+.env*.local
+.waitlist.local.json
+*.log
+.DS_Store
+README.md
+.idea
+.vscode
+*.tsbuildinfo

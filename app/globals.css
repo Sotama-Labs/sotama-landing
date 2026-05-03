@@ -1,0 +1,279 @@
+/* HIG-aligned tokens, type scale, materials.
+   Lifted from the Sotama design bundle (Apple HIG > Foundations). */
+
+:root {
+  --hig-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
+  --hig-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", system-ui, sans-serif;
+  --hig-mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+
+  --label-primary: rgba(0, 0, 0, 1.0);
+  --label-secondary: rgba(60, 60, 67, 0.68);
+  --label-tertiary: rgba(60, 60, 67, 0.36);
+  --label-quaternary: rgba(60, 60, 67, 0.18);
+
+  --bg-system: #ffffff;
+  --bg-system-2: #f2f2f7;
+  --bg-system-3: #ffffff;
+  --bg-grouped: #f2f2f7;
+  --bg-grouped-2: #ffffff;
+
+  --fill-1: rgba(120, 120, 128, 0.20);
+  --fill-2: rgba(120, 120, 128, 0.16);
+  --fill-3: rgba(118, 118, 128, 0.12);
+  --fill-4: rgba(116, 116, 128, 0.08);
+
+  --separator: rgba(60, 60, 67, 0.29);
+  --separator-opaque: #c6c6c8;
+  --hairline: rgba(0, 0, 0, 0.12);
+
+  --accent: #007AFF;
+  --accent-pressed: #0062cc;
+  --accent-fill: rgba(0, 122, 255, 0.15);
+  --green: #34C759;
+  --orange: #FF9500;
+  --red: #FF3B30;
+
+  /* Sotama brand orange — from the diagonal slash in the wordmark */
+  --sotama-orange: #D85C30;
+  --sotama-orange-glow: rgba(216, 92, 48, 0.28);
+
+  --material-chrome: rgba(255, 255, 255, 0.78);
+  --material-thick: rgba(246, 246, 246, 0.80);
+  --material-popover: rgba(245, 245, 245, 0.85);
+
+  --shadow-1: 0 0 0 0.5px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-2: 0 0 0 0.5px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06);
+  --shadow-popover: 0 0 0 0.5px rgba(0,0,0,0.10), 0 6px 24px rgba(0,0,0,0.14), 0 24px 56px rgba(0,0,0,0.18);
+
+  --radius-control-s: 6px;
+  --radius-control-m: 8px;
+  --radius-control-l: 10px;
+  --radius-card: 12px;
+  --radius-sheet: 14px;
+
+  --slot-fill: rgba(120, 120, 128, 0.18);
+  --slot-fill-hover: rgba(120, 120, 128, 0.26);
+  --slot-shadow:
+    inset 0 0.5px 0 rgba(255,255,255,0.65),
+    inset 0 -0.5px 0 rgba(0,0,0,0.12),
+    0 0 0 0.5px rgba(0,0,0,0.10),
+    0 1px 2px rgba(0,0,0,0.05);
+  --slot-shadow-active:
+    inset 0 0.5px 0 rgba(255,255,255,0.7),
+    inset 0 -0.5px 0 rgba(0,0,0,0.10),
+    0 0 0 0.5px var(--accent),
+    0 0 0 4px var(--accent-fill);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --label-primary: rgba(255, 255, 255, 1.0);
+    --label-secondary: rgba(235, 235, 245, 0.68);
+    --label-tertiary: rgba(235, 235, 245, 0.36);
+    --label-quaternary: rgba(235, 235, 245, 0.20);
+
+    --bg-system: #000000;
+    --bg-system-2: #1c1c1e;
+    --bg-system-3: #2c2c2e;
+    --bg-grouped: #000000;
+    --bg-grouped-2: #1c1c1e;
+
+    --fill-1: rgba(120, 120, 128, 0.36);
+    --fill-2: rgba(120, 120, 128, 0.32);
+    --fill-3: rgba(118, 118, 128, 0.24);
+    --fill-4: rgba(118, 118, 128, 0.18);
+
+    --separator: rgba(84, 84, 88, 0.65);
+    --separator-opaque: #38383a;
+    --hairline: rgba(255, 255, 255, 0.10);
+
+    --accent: #0A84FF;
+    --accent-pressed: #409CFF;
+    --accent-fill: rgba(10, 132, 255, 0.22);
+    --green: #30D158;
+    --red: #FF453A;
+
+    --sotama-orange: #FF7A4A;
+    --sotama-orange-glow: rgba(255, 122, 74, 0.32);
+
+    --material-chrome: rgba(36, 36, 38, 0.78);
+    --material-thick: rgba(28, 28, 30, 0.82);
+    --material-popover: rgba(44, 44, 46, 0.85);
+
+    --shadow-1: 0 0 0 0.5px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-2: 0 0 0 0.5px rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.30), 0 16px 40px rgba(0,0,0,0.50);
+    --shadow-popover: 0 0 0 0.5px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.50), 0 32px 64px rgba(0,0,0,0.60);
+
+    --slot-fill: rgba(255, 255, 255, 0.09);
+    --slot-fill-hover: rgba(255, 255, 255, 0.14);
+    --slot-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.14),
+      inset 0 -1px 0 rgba(255,255,255,0.05),
+      inset 0 0 0 0.5px rgba(255,255,255,0.10),
+      0 1px 2px rgba(0,0,0,0.40),
+      0 0 0 0.5px rgba(0,0,0,0.45);
+    --slot-shadow-active:
+      inset 0 1px 0 rgba(255,255,255,0.16),
+      inset 0 -1px 0 rgba(255,255,255,0.06),
+      inset 0 0 0 0.5px rgba(255,255,255,0.12),
+      0 0 0 0.5px var(--accent),
+      0 0 0 4px var(--accent-fill);
+  }
+}
+
+[data-appearance="light"] { color-scheme: light; }
+[data-appearance="light"] {
+  --label-primary: rgba(0, 0, 0, 1.0);
+  --label-secondary: rgba(60, 60, 67, 0.68);
+  --label-tertiary: rgba(60, 60, 67, 0.36);
+  --label-quaternary: rgba(60, 60, 67, 0.18);
+  --bg-system: #ffffff;
+  --bg-system-2: #f2f2f7;
+  --bg-grouped: #f2f2f7;
+  --bg-grouped-2: #ffffff;
+  --fill-1: rgba(120, 120, 128, 0.20);
+  --fill-2: rgba(120, 120, 128, 0.16);
+  --fill-3: rgba(118, 118, 128, 0.12);
+  --fill-4: rgba(116, 116, 128, 0.08);
+  --separator: rgba(60, 60, 67, 0.29);
+  --separator-opaque: #c6c6c8;
+  --hairline: rgba(0, 0, 0, 0.12);
+  --accent: #007AFF;
+  --accent-pressed: #0062cc;
+  --accent-fill: rgba(0, 122, 255, 0.15);
+  --sotama-orange: #D85C30;
+  --sotama-orange-glow: rgba(216, 92, 48, 0.28);
+  --material-chrome: rgba(255, 255, 255, 0.78);
+  --material-popover: rgba(245, 245, 245, 0.85);
+  --shadow-1: 0 0 0 0.5px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-2: 0 0 0 0.5px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.06);
+  --shadow-popover: 0 0 0 0.5px rgba(0,0,0,0.10), 0 6px 24px rgba(0,0,0,0.14), 0 24px 56px rgba(0,0,0,0.18);
+  --slot-fill: rgba(120, 120, 128, 0.18);
+  --slot-fill-hover: rgba(120, 120, 128, 0.26);
+  --slot-shadow:
+    inset 0 0.5px 0 rgba(255,255,255,0.65),
+    inset 0 -0.5px 0 rgba(0,0,0,0.12),
+    0 0 0 0.5px rgba(0,0,0,0.10),
+    0 1px 2px rgba(0,0,0,0.05);
+}
+
+[data-appearance="dark"] { color-scheme: dark; }
+[data-appearance="dark"] {
+  --label-primary: rgba(255, 255, 255, 1.0);
+  --label-secondary: rgba(235, 235, 245, 0.68);
+  --label-tertiary: rgba(235, 235, 245, 0.36);
+  --label-quaternary: rgba(235, 235, 245, 0.20);
+  --bg-system: #000000;
+  --bg-system-2: #1c1c1e;
+  --bg-grouped: #000000;
+  --bg-grouped-2: #1c1c1e;
+  --fill-1: rgba(120, 120, 128, 0.36);
+  --fill-2: rgba(120, 120, 128, 0.32);
+  --fill-3: rgba(118, 118, 128, 0.24);
+  --fill-4: rgba(118, 118, 128, 0.18);
+  --separator: rgba(84, 84, 88, 0.65);
+  --separator-opaque: #38383a;
+  --hairline: rgba(255, 255, 255, 0.10);
+  --accent: #0A84FF;
+  --accent-pressed: #409CFF;
+  --accent-fill: rgba(10, 132, 255, 0.22);
+  --sotama-orange: #FF7A4A;
+  --sotama-orange-glow: rgba(255, 122, 74, 0.32);
+  --material-chrome: rgba(36, 36, 38, 0.78);
+  --material-popover: rgba(44, 44, 46, 0.85);
+  --shadow-1: 0 0 0 0.5px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-2: 0 0 0 0.5px rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.30), 0 16px 40px rgba(0,0,0,0.50);
+  --shadow-popover: 0 0 0 0.5px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.50), 0 32px 64px rgba(0,0,0,0.60);
+  --slot-fill: rgba(255, 255, 255, 0.09);
+  --slot-fill-hover: rgba(255, 255, 255, 0.14);
+  --slot-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 -1px 0 rgba(255,255,255,0.05),
+    inset 0 0 0 0.5px rgba(255,255,255,0.10),
+    0 1px 2px rgba(0,0,0,0.40),
+    0 0 0 0.5px rgba(0,0,0,0.45);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--hig-font);
+  background: var(--bg-grouped);
+  color: var(--label-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01";
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  font: inherit;
+}
+
+input { font-family: inherit; color: inherit; }
+
+/* HIG type scale */
+.hig-large-title { font-family: var(--hig-font-display); font-size: 2.125rem; line-height: 2.5625rem; font-weight: 700; letter-spacing: 0.011em; }
+.hig-title-1 { font-family: var(--hig-font-display); font-size: 1.75rem; line-height: 2.125rem; font-weight: 700; letter-spacing: 0.013em; }
+.hig-title-2 { font-family: var(--hig-font-display); font-size: 1.375rem; line-height: 1.75rem; font-weight: 700; letter-spacing: 0.016em; }
+.hig-title-3 { font-family: var(--hig-font-display); font-size: 1.25rem; line-height: 1.5625rem; font-weight: 600; letter-spacing: 0.019em; }
+.hig-headline { font-family: var(--hig-font); font-size: 1.0625rem; line-height: 1.375rem; font-weight: 600; letter-spacing: -0.024em; }
+.hig-body { font-family: var(--hig-font); font-size: 1.0625rem; line-height: 1.375rem; font-weight: 400; letter-spacing: -0.024em; }
+.hig-subheadline { font-family: var(--hig-font); font-size: 0.9375rem; line-height: 1.25rem; font-weight: 400; letter-spacing: -0.016em; }
+.hig-footnote { font-family: var(--hig-font); font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: -0.008em; }
+.hig-caption-1 { font-family: var(--hig-font); font-size: 0.75rem; line-height: 1rem; font-weight: 400; }
+
+/* Animations — Apple's spring curve */
+@keyframes hig-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hig-pop-in { from { opacity: 0; transform: translateY(-4px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes hig-spin { to { transform: rotate(360deg); } }
+@keyframes hig-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes sotama-glow {
+  0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.75; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+.fade-slide { animation: hig-fade-in 360ms cubic-bezier(0.32, 0.72, 0, 1) both; }
+.fade-slide-1 { animation: hig-fade-in 420ms cubic-bezier(0.32, 0.72, 0, 1) 60ms both; }
+.fade-slide-2 { animation: hig-fade-in 480ms cubic-bezier(0.32, 0.72, 0, 1) 140ms both; }
+.fade-slide-3 { animation: hig-fade-in 520ms cubic-bezier(0.32, 0.72, 0, 1) 240ms both; }
+.fade-slide-4 { animation: hig-fade-in 600ms cubic-bezier(0.32, 0.72, 0, 1) 360ms both; }
+.pop-in { animation: hig-pop-in 240ms cubic-bezier(0.32, 0.72, 0, 1); transform-origin: top center; }
+.pulse-dot { animation: hig-pulse 1.6s ease-in-out infinite; }
+.spinner { animation: hig-spin 0.8s linear infinite; }
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent-fill);
+  outline-offset: 1px;
+  border-radius: var(--radius-control-m);
+}
+
+/* Ambient orange glow that nods to the brand slash */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.ambient-bg::before {
+  content: "";
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  width: 70vw;
+  height: 70vw;
+  max-width: 900px;
+  max-height: 900px;
+  background: radial-gradient(closest-side, var(--sotama-orange-glow), transparent 70%);
+  filter: blur(40px);
+  animation: sotama-glow 9s ease-in-out infinite;
+}
