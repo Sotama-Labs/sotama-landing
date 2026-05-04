@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "waitlist": "node --env-file=.env.local scripts/dump-waitlist.mjs"
   },
   "dependencies": {
     "next": "^15.5.15",

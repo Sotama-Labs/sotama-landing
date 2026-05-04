@@ -220,6 +220,56 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
+/* Hero / waitlist layout — built so the page fits in one viewport on mobile,
+   keeping the fixed orange band glued to the text. */
+.hero-main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 5rem;
+}
+.hero-header {
+  width: 100%;
+  max-width: 40rem;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.hero-footer {
+  margin-top: 4.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--label-tertiary);
+}
+
+@media (max-width: 640px) {
+  /* No scroll on mobile — hero is the whole experience. */
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  .hero-main {
+    /* Asymmetric padding shifts the centered column up so the headline
+       lands on the orange band's center (~8rem above viewport center). */
+    padding: 2rem 1.25rem 7rem;
+    height: 100dvh;
+    min-height: 100dvh;
+    justify-content: center;
+  }
+  .hero-header {
+    margin-bottom: 2rem;
+  }
+  .hero-footer {
+    margin-top: 2.25rem;
+  }
+}
+
 button {
   font-family: inherit;
   cursor: pointer;
@@ -288,6 +338,14 @@ button:focus-visible, input:focus-visible {
   filter: blur(var(--band-blur));
   opacity: var(--band-min);
   animation: sotama-glow 9s ease-in-out infinite;
+}
+@media (max-width: 640px) {
+  .ambient-bg::before {
+    /* Phone screens are narrow — let the band span almost the full width
+       so it actually wraps the headline + subtitle. */
+    left: 0;
+    right: 0;
+  }
 }
 /* Subtle grain across the band area — un-blurred so the texture survives. */
 .ambient-bg::after {

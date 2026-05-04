@@ -37,26 +37,8 @@ export default async function Page() {
         <AppearanceToggle />
       </div>
 
-      <main
-        style={{
-          position: "relative",
-          zIndex: 1,
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "6rem 1.5rem 5rem",
-        }}
-      >
-        <header
-          style={{
-            width: "100%",
-            maxWidth: "40rem",
-            textAlign: "center",
-            marginBottom: "4rem",
-          }}
-        >
+      <main className="hero-main">
+        <header className="hero-header">
           <div className="fade-slide" style={{ marginBottom: "1.75rem", display: "inline-flex" }}>
             <SotamaMark size={4.25} />
           </div>
@@ -102,16 +84,7 @@ export default async function Page() {
           <WaitlistForm initialCount={initialCount} initialJoined={initialJoined} />
         </div>
 
-        <footer
-          className="fade-slide-4"
-          style={{
-            marginTop: "4.5rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            color: "var(--label-tertiary)",
-          }}
-        >
+        <footer className="fade-slide-4 hero-footer">
           <span
             className="pulse-dot"
             style={{
