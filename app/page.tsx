@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { AppearanceToggle } from "@/components/AppearanceToggle";
 import { BrandMark, SotamaMark } from "@/components/BrandMark";
+import { SocialLinks } from "@/components/SocialLinks";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { getCount } from "@/lib/store";
 
@@ -97,6 +98,10 @@ export default async function Page() {
           />
           <span className="hig-footnote">Building now · invites will start rolling out during the beta.</span>
         </footer>
+
+        <div className="fade-slide-4 hero-social">
+          <SocialLinks />
+        </div>
       </main>
     </>
   );

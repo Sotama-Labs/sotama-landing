@@ -260,9 +260,7 @@ export function WaitlistForm({
         }}
         className="hig-footnote"
       >
-        {isError
-          ? state.message
-          : "Be the first in line."}
+        {isError ? state.message : null}
       </div>
     </form>
   );

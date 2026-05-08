@@ -246,6 +246,12 @@ html, body {
   gap: 0.5rem;
   color: var(--label-tertiary);
 }
+.hero-social {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media (max-width: 640px) {
   /* No scroll on mobile — hero is the whole experience. */
@@ -267,6 +273,9 @@ html, body {
   }
   .hero-footer {
     margin-top: 2.25rem;
+  }
+  .hero-social {
+    margin-top: 0.75rem;
   }
 }
 
