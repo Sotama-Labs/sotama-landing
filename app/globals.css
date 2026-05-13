@@ -253,6 +253,7 @@ html, body {
   max-width: 40rem;
   text-align: center;
   margin-bottom: 4rem;
+  transform: translateY(-2.5rem);
 }
 .hero-footer {
   display: flex;
@@ -285,6 +286,7 @@ html, body {
   }
   .hero-header {
     margin-bottom: 2rem;
+    transform: translateY(-1.5rem);
   }
 }
 
