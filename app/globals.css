@@ -260,6 +260,11 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-family: var(--hig-font);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.008em;
   color: var(--label-tertiary);
   text-align: center;
 }

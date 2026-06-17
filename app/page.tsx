@@ -89,12 +89,9 @@ export default async function Page() {
 
         <div className="hero-bottom">
           <footer className="fade-slide-4 hero-footer">
-            <span className="hig-footnote">
-              Have an invite code?{" "}
-              <a href="https://beta.sotama.xyz" className="hero-footer-link">
-                Access the beta here
-              </a>
-            </span>
+            <a href="https://beta.sotama.xyz" className="hero-footer-link">
+              Access the demo here
+            </a>
           </footer>
 
           <div className="fade-slide-4 hero-social">
