@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sotama · Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Sotama brand palette: charcoal + warm orange + paper white */
+      --c-bg: #ffffff;
+      --c-bg-alt: #f7f6f3;
+      --c-bg-card: #ffffff;
+      --c-surface: #f0eee8;
+      --c-border: rgba(28, 28, 30, 0.10);
+      --c-border-strong: rgba(28, 28, 30, 0.22);
+
+      --c-text: #1c1c1e;
+      --c-text-secondary: rgba(28, 28, 30, 0.66);
+      --c-text-muted: rgba(28, 28, 30, 0.42);
+
+      --c-primary: #D85C30;        /* Sotama orange */
+      --c-primary-dim: rgba(216, 92, 48, 0.10);
+      --c-accent: #1c1c1e;         /* charcoal as the heavy accent */
+      --c-accent-dim: rgba(28, 28, 30, 0.06);
+      --c-danger: #a23a1f;
+      --c-success: #2f6a3e;
+
+      /* Typography scale */
+      --f-hero: clamp(64px, 7vw, 112px);
+      --f-h1: clamp(44px, 4.5vw, 72px);
+      --f-h2: clamp(32px, 3vw, 48px);
+      --f-h3: clamp(22px, 2vw, 30px);
+      --f-body: clamp(18px, 1.4vw, 24px);
+      --f-small: clamp(15px, 1.1vw, 18px);
+      --f-caption: clamp(12px, 0.9vw, 14px);
+
+      --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Menlo', monospace;
+
+      --s-xs: 8px;
+      --s-sm: 16px;
+      --s-md: 32px;
+      --s-lg: 48px;
+      --s-xl: 64px;
+      --s-2xl: 96px;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-soft: cubic-bezier(0.42, 0, 0.12, 1);
+      --duration-enter: 0.65s;
+      --slide-drift: 32px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%; overflow: hidden;
+      background: var(--c-bg); color: var(--c-text);
+      font-family: var(--font-display);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7vh 9vw;
+      opacity: 0;
+      transform: translate3d(var(--drift, 0px), 0, 0);
+      filter: blur(8px);
+      pointer-events: none;
+      transition:
+        opacity 0.55s var(--ease-soft),
+        transform 0.85s var(--ease-smooth),
+        filter 0.6s var(--ease-soft);
+      will-change: opacity, transform, filter;
+      background: var(--c-bg);
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    .slide.alt { background: var(--c-bg-alt); }
+
+    .slide.active .animate-in {
+      animation: rise var(--duration-enter) var(--ease-smooth) both;
+      animation-delay: calc(0.18s + var(--stagger, 0s));
+    }
+    .slide.active .animate-in:nth-child(1) { --stagger: 0.00s; }
+    .slide.active .animate-in:nth-child(2) { --stagger: 0.08s; }
+    .slide.active .animate-in:nth-child(3) { --stagger: 0.16s; }
+    .slide.active .animate-in:nth-child(4) { --stagger: 0.24s; }
+    .slide.active .animate-in:nth-child(5) { --stagger: 0.32s; }
+    .slide.active .animate-in:nth-child(6) { --stagger: 0.40s; }
+    .slide.active .animate-in:nth-child(7) { --stagger: 0.48s; }
+    .slide.active .animate-in:nth-child(8) { --stagger: 0.56s; }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        filter: blur(0);
+      }
+    }
+
+    /* Typography */
+    .hero { font-size: var(--f-hero); font-weight: 900; letter-spacing: -0.045em; line-height: 0.98; }
+    .h1 { font-size: var(--f-h1); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; }
+    .h2 { font-size: var(--f-h2); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
+    .h3 { font-size: var(--f-h3); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
+    .body { font-size: var(--f-body); font-weight: 400; line-height: 1.5; color: var(--c-text-secondary); }
+    .small { font-size: var(--f-small); font-weight: 400; line-height: 1.5; color: var(--c-text-secondary); }
+    .caption {
+      font-size: var(--f-caption); font-weight: 600;
+      color: var(--c-text-muted);
+      letter-spacing: 0.18em; text-transform: uppercase;
+    }
+    .mono { font-family: var(--font-mono); }
+
+    .text-primary { color: var(--c-primary); }
+    .text-strong { color: var(--c-text); font-weight: 700; }
+    .text-muted { color: var(--c-text-muted); }
+
+    .max-w-prose { max-width: 720px; }
+    .max-w-wide { max-width: 1100px; }
+
+    /* Components */
+    .divider {
+      width: 56px; height: 2px; border-radius: 2px;
+      background: var(--c-primary);
+      margin: 28px 0;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: var(--f-caption); font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      background: var(--c-accent-dim);
+      color: var(--c-text);
+      border: 1px solid var(--c-border);
+    }
+    .pill .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--c-primary);
+    }
+
+    .card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .card-tight { padding: 20px 24px; }
+
+    .use-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: 14px;
+      padding: 24px 26px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .use-card:hover { border-color: var(--c-border-strong); transform: translateY(-2px); }
+    .use-card .use-tag {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+      color: var(--c-primary); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .use-card .use-rule {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--c-text);
+      background: var(--c-surface);
+      padding: 10px 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .use-card .use-desc {
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--c-text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Layout */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-lg); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-md); }
+    .grid-2x3 { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: var(--s-md); }
+    .stack-md > * + * { margin-top: var(--s-md); }
+    .stack-sm > * + * { margin-top: var(--s-sm); }
+    .stack-xs > * + * { margin-top: var(--s-xs); }
+
+    .row { display: flex; align-items: center; gap: var(--s-sm); }
+    .row-between { display: flex; align-items: center; justify-content: space-between; }
+
+    /* Metric block */
+    .metric {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .metric-value {
+      font-size: clamp(48px, 5vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--c-text);
+    }
+    .metric-value.accent { color: var(--c-primary); }
+    .metric-label {
+      font-size: var(--f-small);
+      color: var(--c-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* Code-style rule card */
+    .rule-block {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: 14px;
+      padding: 28px 32px;
+      font-family: var(--font-mono);
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height: 1.8;
+      color: var(--c-text);
+    }
+    .rule-block .k { color: var(--c-text-muted); font-weight: 600; width: 110px; display: inline-block; }
+    .rule-block .v { color: var(--c-text); }
+    .rule-block .op { color: var(--c-primary); }
+
+    /* Comparison table */
+    .compare {
+      width: 100%; border-collapse: collapse;
+      font-size: var(--f-small);
+    }
+    .compare th, .compare td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .compare th {
+      font-weight: 700;
+      color: var(--c-text-muted);
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .compare th.us {
+      color: var(--c-primary);
+    }
+    .compare td.us {
+      background: var(--c-primary-dim);
+      color: var(--c-text);
+      font-weight: 600;
+    }
+    .compare td:first-child { color: var(--c-text); font-weight: 600; }
+    .compare .y { color: var(--c-success); font-weight: 700; }
+    .compare .n { color: var(--c-text-muted); }
+    .compare .p { color: var(--c-primary); }
+
+    /* Roadmap card with hero diagram */
+    .roadmap-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: 14px;
+      padding: 18px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .roadmap-card:hover { border-color: var(--c-border-strong); transform: translateY(-2px); }
+    .roadmap-diagram {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 18px;
+      aspect-ratio: 5 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .roadmap-diagram svg { width: 100%; height: 100%; display: block; }
+    .roadmap-diagram .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(28,28,30,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(28,28,30,0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+      pointer-events: none;
+    }
+
+    @keyframes pulse-race {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    @keyframes orbit-dot {
+      from { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+    }
+    .slide.active .roadmap-diagram .race-line {
+      animation: pulse-race 2.4s var(--ease-out) infinite;
+    }
+
+    /* Logo mark */
+    .logo-mark { width: 1em; height: 1em; display: inline-block; vertical-align: -0.12em; }
+    .logo-mark path.fg { fill: currentColor; }
+    .logo-mark path.slash { fill: var(--c-primary); }
+
+    /* Builder photo placeholder */
+    .photo-placeholder {
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 2px dashed var(--c-border-strong);
+      background: var(--c-surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      color: var(--c-text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 24px;
+      line-height: 1.4;
+    }
+
+    /* Footer on title slide */
+    .title-footer {
+      position: absolute;
+      bottom: 7vh;
+      left: 9vw;
+      right: 9vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: var(--f-small);
+      color: var(--c-text-muted);
+      letter-spacing: 0.02em;
+    }
+    .title-footer .mono {
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    /* Navigation */
+    .nav-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 32px;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .deck:hover .nav-bar, .nav-bar:hover { opacity: 1; pointer-events: auto; }
+    .nav-counter {
+      font-size: 13px;
+      color: var(--c-text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+    .nav-progress {
+      flex: 1; max-width: 280px;
+      height: 2px; background: rgba(28, 28, 30, 0.08);
+      margin: 0 24px;
+      border-radius: 2px; overflow: hidden;
+    }
+    .nav-progress-fill {
+      height: 100%;
+      background: var(--c-primary);
+      transition: width 0.3s var(--ease-out);
+    }
+    .nav-btn {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      color: var(--c-text-secondary);
+      padding: 8px 14px; border-radius: 8px;
+      cursor: pointer; font-size: 13px;
+      font-family: var(--font-display);
+      font-weight: 500;
+    }
+    .nav-btn:hover { border-color: var(--c-border-strong); color: var(--c-text); }
+
+    /* Presenter notes */
+    .notes {
+      display: none;
+      position: fixed;
+      bottom: 56px; left: 32px; right: 32px;
+      background: rgba(28, 28, 30, 0.96);
+      color: #f2f2f7;
+      border-radius: 12px;
+      padding: 18px 22px;
+      font-size: 14px;
+      line-height: 1.55;
+      z-index: 200;
+      max-height: 220px;
+      overflow-y: auto;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    }
+    .notes.visible { display: block; }
+    .notes-label {
+      font-size: 11px;
+      color: rgba(242, 242, 247, 0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .notes strong { color: var(--c-primary); }
+    .notes ul { list-style: none; padding: 0; }
+    .notes ul li { padding: 3px 0; position: relative; padding-left: 18px; }
+    .notes ul li::before {
+      content: '·'; position: absolute; left: 6px; top: -2px;
+      color: var(--c-primary); font-weight: 900; font-size: 18px;
+    }
+
+    /* Print */
+    @media print {
+      .deck { overflow: visible; }
+      .slide {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+        page-break-after: always;
+        height: 100vh;
+        break-inside: avoid;
+      }
+      .nav-bar, .notes { display: none !important; }
+      .animate-in { animation: none !important; opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <!-- ====================== SLIDE 1 — TITLE ====================== -->
+    <div class="slide active">
+      <div class="animate-in" style="display: inline-flex; align-items: center; gap: 12px; margin-left: clamp(76px, 7.3vw, 134px);">
+        <span style="font-size: var(--f-caption); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-text);">
+          Live on Solana mainnet
+        </span>
+        <svg viewBox="0 0 397 311" style="width: 24px; height: auto; flex-shrink: 0;" aria-hidden="true">
+          <defs>
+            <linearGradient id="sol-grad" x1="360.879" y1="-13.0148" x2="141.213" y2="403.052" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#00FFA3"/>
+              <stop offset="1" stop-color="#DC1FFF"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#sol-grad)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+          <path fill="url(#sol-grad)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+          <path fill="url(#sol-grad)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z"/>
+        </svg>
+      </div>
+
+      <div class="animate-in" style="margin-top: 6vh;">
+        <h1 class="hero" style="display: flex; align-items: center; gap: 0.18em;">
+          <svg class="logo-mark" viewBox="240 140 320 320" aria-hidden="true">
+            <path class="fg" d="M 300 150 L 380 150 L 380 300 L 300 380 Z"/>
+            <path class="fg" d="M 300 420 L 380 340 L 380 450 L 300 450 Z"/>
+            <path class="fg" d="M 420 150 L 500 150 L 500 180 L 420 260 Z"/>
+            <path class="fg" d="M 420 300 L 500 220 L 500 450 L 420 450 Z"/>
+            <path class="slash" d="M 260 446 L 260 434 L 540 154 L 540 166 Z"/>
+          </svg>
+          Sotama
+        </h1>
+      </div>
+
+      <p class="h2 animate-in" style="margin-top: 3vh; max-width: 900px; color: var(--c-text);">
+        Automate anything with simple sentences. On Solana.
+      </p>
+
+      <p class="body animate-in" style="margin-top: 2vh; max-width: 880px;">
+        Pick your triggers, pick your actions. That's your strategy.
+        Link it to other strategies, loop it. Anything and everything is possible.
+      </p>
+
+      <div class="title-footer">
+        <div>
+          <div class="caption" style="margin-bottom: 4px;">Submission</div>
+          <div class="text-strong">Colosseum Frontier 2026</div>
+        </div>
+        <div class="mono">sotama.xyz</div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>Open with the line, not the logo. "Sotama lets you automate anything on Solana with simple sentences."</li>
+          <li>15 second hook. Then move.</li>
+          <li>Mainnet deploy date is 2026-05-11. Lead with that if asked when it shipped.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 2 — PROBLEM (ORIGIN) ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">Origin</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px; max-width: 1100px;">
+        I saw an exploitable gap<br>
+        in the market.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-2 animate-in" style="margin-top: 24px;">
+        <div class="stack-md">
+          <p class="body">
+            Tokenized stocks like NVDAx and TSLAx used to lag behind their
+            TradFi counterparts by a few seconds.
+          </p>
+          <p class="body">
+            I noticed this, so I built an arbitrage bot. It took me 2 whole
+            weeks to write a well-refined script, plug in SDKs and API
+            endpoints, generate a wallet in the CLI, and spin up a VM in the
+            cloud. For just one strategy.
+          </p>
+          <p class="h3" style="color: var(--c-text); font-weight: 700;">
+            The edge was uncertain. But the plumbing took two weeks.
+          </p>
+        </div>
+
+        <div class="card animate-in" style="align-self: center;">
+          <div class="caption" style="color: var(--c-primary);">Stack</div>
+          <div class="stack-sm" style="margin-top: 18px;">
+            <div class="row-between">
+              <span class="small">Write the script</span>
+              <span class="mono small text-muted">Python · backtesting</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Wire the SDKs</span>
+              <span class="mono small text-muted">@solana/kit · Jupiter · Pyth · Helius</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Generate a wallet</span>
+              <span class="mono small text-muted">solana-keygen CLI</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Spin up the VM</span>
+              <span class="mono small text-muted">DigitalOcean · systemd · monitoring</span>
+            </div>
+            <div class="row-between" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--c-border);">
+              <span class="text-strong">Time to first fire</span>
+              <span class="mono text-strong" style="color: var(--c-primary);">2 weeks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>This is the founder-pain slide. Keep it personal. Do not read the card.</li>
+          <li><strong>Land the line:</strong> "The edge was uncertain. But the plumbing took two weeks."</li>
+          <li>Transition: "Most traders with an edge will not do that work. That is the wedge."</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 3 — SOLUTION ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">What it is</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        Sotama is a rule engine on Solana.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-2 animate-in" style="margin-top: 24px; align-items: center;">
+        <div class="stack-md">
+          <p class="body">
+            Click a rule in the builder. Deposit funds into a PDA the program owns.
+            A keeper watches the trigger. The keeper signs the execute transaction
+            when the condition hits. The program enforces destination, slippage,
+            cadence, and ownership on every fire.
+          </p>
+          <p class="h3" style="color: var(--c-text);">
+            No script. No server. No custody loss.
+          </p>
+        </div>
+
+        <figure style="margin: 0;">
+          <img src="/pitch-deck-assets/rule-builder.png"
+               alt="Sotama rule builder: if META or GOOGL price goes above NVDA ratio, swap NVDAx for USDC, self-link infinite"
+               style="width: 100%; height: auto; display: block; border-radius: 14px; border: 1px solid var(--c-border); box-shadow: 0 14px 36px rgba(28, 28, 30, 0.10);">
+          <figcaption style="margin-top: 14px; font-size: 13px; color: var(--c-text-muted); text-align: center; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;">
+            Rule builder · multi-trigger, self-linked, infinite cadence
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li><strong>Bar test:</strong> if this then that, on Solana. Do not over-explain.</li>
+          <li>Three things the program enforces on every fire: destination owner, slippage floor, cadence gate. The keeper cannot break any of them.</li>
+          <li>Transition to next slide: "One base. Many strategies."</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 5 — VERSATILITY ====================== -->
+    <div class="slide">
+      <span class="caption animate-in">What it builds</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        One base. Every strategy.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-2x3 animate-in" style="margin-top: 28px;">
+        <div class="use-card">
+          <div class="use-tag">DCA · compound</div>
+          <div class="use-rule">every fri & SOL &lt; $90 · 50 USDC → SOL</div>
+          <div class="use-desc">Recurring buys, only when price is in range. Two triggers, one rule.</div>
+        </div>
+        <div class="use-card">
+          <div class="use-tag">Stop-loss</div>
+          <div class="use-rule">if SOL &lt; $100 · sell 1 SOL → USDC</div>
+          <div class="use-desc">Sleep insurance. The program fires while you do not watch.</div>
+        </div>
+        <div class="use-card">
+          <div class="use-tag">Treasury sweep</div>
+          <div class="use-rule">if wallet &gt; 10 SOL · move 5 → cold</div>
+          <div class="use-desc">Hot wallet hygiene. Hands off the operating balance.</div>
+        </div>
+        <div class="use-card">
+          <div class="use-tag">Watched account</div>
+          <div class="use-rule">if wallet X moves USDC · mirror swap</div>
+          <div class="use-desc">Whale follow. Signal copy. Onchain alerts that act.</div>
+        </div>
+        <div class="use-card">
+          <div class="use-tag">Chained rules</div>
+          <div class="use-rule">swap A · deposit downstream · stake</div>
+          <div class="use-desc">Multi-step strategies. Each link is its own PDA.</div>
+        </div>
+        <div class="use-card">
+          <div class="use-tag">xStocks arb</div>
+          <div class="use-rule">if NVDAx / NVDA &gt; 1.005 · sell NVDAx</div>
+          <div class="use-desc">Lag windows on tokenized equities. The strategy that started this.</div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>This is the differentiation slide. Land hard.</li>
+          <li><strong>Key line:</strong> "Each rule is one PDA. PDAs compose. The next strategy is a click."</li>
+          <li>If a judge asks for proof: walk through the v4.4 linked-chain primitive. swap_destination becomes the next rule's input ATA. Atomic create transaction.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 6 — WHY SOLANA / TRUST MODEL ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">Trust model</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        Compromise the keeper.<br>
+        Funds stay put.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-3 animate-in" style="margin-top: 32px;">
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">01 · Ownership</div>
+          <h3 class="h3" style="margin-top: 14px;">PDA holds funds.</h3>
+          <p class="small" style="margin-top: 14px;">
+            The program owns the deposit, not the keeper. The keeper signs
+            transactions. The keeper never holds your tokens.
+          </p>
+        </div>
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">02 · Safety rails</div>
+          <h3 class="h3" style="margin-top: 14px;">Built-in checks.</h3>
+          <p class="small" style="margin-top: 14px;">
+            Funds go only to your wallet. Only the token you picked can be sent.
+            Prices stay inside the limit you set. Rules respect the schedule you set.
+            The program checks every one of these before anything moves.
+          </p>
+        </div>
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">03 · Authority</div>
+          <h3 class="h3" style="margin-top: 14px;">One keeper. Set onchain.</h3>
+          <p class="small" style="margin-top: 14px;">
+            The program accepts signatures from a single configured pubkey.
+            Any other signer fails the check. Rotating the keeper takes the
+            admin role, which lives on a hardware wallet.
+          </p>
+        </div>
+      </div>
+
+      <p class="h3 animate-in" style="margin-top: 40px; max-width: 980px; color: var(--c-text); font-weight: 600;">
+        Plus a one-way kill switch. Once flipped, no new fires. The admin
+        runs a wind-down that refunds deposits to users.
+      </p>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li><strong>Lead line:</strong> compromise the keeper key, attacker still cannot redirect a single SOL.</li>
+          <li>Solana-specific point: this trust model uses PDAs + onchain CPI guards. EVM equivalents need more trust in the relayer.</li>
+          <li>Kill switch detail: one-way, refunds users, rent flows to a configured treasury. Tested on devnet.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 7 — COMPETITION ====================== -->
+    <div class="slide">
+      <span class="caption animate-in">What exists today</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        The alternatives all leak somewhere.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="animate-in" style="margin-top: 36px;">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th style="width: 28%;"></th>
+              <th>CEX limit / stop</th>
+              <th>Jupiter Trigger</th>
+              <th>DIY script + VPS</th>
+              <th class="us">Sotama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Self-custody</td>
+              <td class="n">✗</td>
+              <td class="y">✓</td>
+              <td class="y">✓</td>
+              <td class="us"><span class="y">✓</span></td>
+            </tr>
+            <tr>
+              <td>No code required</td>
+              <td class="y">✓</td>
+              <td class="y">✓</td>
+              <td class="n">✗</td>
+              <td class="us"><span class="y">✓</span></td>
+            </tr>
+            <tr>
+              <td>Trustless keeper</td>
+              <td class="n">n/a</td>
+              <td class="y">✓</td>
+              <td class="n">hot key on a box</td>
+              <td class="us"><span class="y">✓ onchain enforced</span></td>
+            </tr>
+            <tr>
+              <td>Composed multi-step rules</td>
+              <td class="n">✗</td>
+              <td class="n">single shot</td>
+              <td class="p">if you write it</td>
+              <td class="us"><span class="y">✓ linked PDAs</span></td>
+            </tr>
+            <tr>
+              <td>Watched-account triggers</td>
+              <td class="n">✗</td>
+              <td class="n">✗</td>
+              <td class="p">if you write it</td>
+              <td class="us"><span class="y">✓</span></td>
+            </tr>
+            <tr>
+              <td>Works on any SPL + Jupiter route</td>
+              <td class="n">listed pairs only</td>
+              <td class="y">✓</td>
+              <td class="y">✓</td>
+              <td class="us"><span class="y">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="small animate-in" style="margin-top: 32px; color: var(--c-text-muted); max-width: 900px;">
+        Sotama isn't a swap tool. Swap is one action.
+      </p>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>Do not pitch Sotama as a better Jupiter Trigger. The table is breadth, not parity. Lead with the strategy unit.</li>
+          <li>Sotama composes: watched-account triggers, ratio triggers across mints, chained PDAs that hand off the next leg's funding atomically.</li>
+          <li>The DIY row is the killer. Hot keys on a box is the worst trust model in crypto.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 8 — TRACTION ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">Where we are</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        Live on Solana mainnet.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-2 animate-in" style="margin-top: 32px; align-items: start;">
+        <div class="stack-md">
+          <div class="grid-2" style="gap: 24px;">
+            <div class="metric">
+              <div class="metric-value accent">102</div>
+              <div class="metric-label">X followers</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value accent">64</div>
+              <div class="metric-label">Waitlist signups</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">4</div>
+              <div class="metric-label">Trigger types live</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">3</div>
+              <div class="metric-label">Action types live</div>
+            </div>
+          </div>
+
+          <p class="small" style="margin-top: 24px;">
+            Mainnet deploy 2026-05-11. Devnet POC ran 11 days first.
+            Triggers: watched account, USD price (Pyth), ratio price, time-of-day.
+            Actions: SOL transfer, SPL transfer, Jupiter swap.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">Stack</div>
+          <div class="stack-sm" style="margin-top: 16px;">
+            <div class="row-between">
+              <span class="small">Program</span>
+              <span class="mono small">Anchor 0.32 · Rust</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Keeper</span>
+              <span class="mono small">Rust · Fly.io</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Frontend</span>
+              <span class="mono small">Next.js 15 · React 18</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Oracles</span>
+              <span class="mono small">Pyth · Pyth Lazer</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Routing</span>
+              <span class="mono small">Jupiter v6</span>
+            </div>
+            <div class="row-between">
+              <span class="small">Streaming</span>
+              <span class="mono small">Helius (logs + accounts)</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>Demand signals before mainnet had any volume: 102 X followers in 9 days, 64 waitlist emails. The next milestone is onchain rules and TVL.</li>
+          <li>What survived a redesign: keeper went from polling to streaming (logsSubscribe + accountSubscribe + Hermes SSE). 28 commits on the branch.</li>
+          <li>If asked about audits: pre-audit. Plan is third-party review before opening to public deposits at scale. Kill switch and program upgrade authority on Ledger now, Squads 2-of-3 at day 90.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 9 — BUILDER (placeholder) ====================== -->
+    <div class="slide">
+      <span class="caption animate-in">Builder</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        Built by one person.<br>
+        For people with an edge.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-2 animate-in" style="margin-top: 32px; align-items: center;">
+        <div style="display: flex; justify-content: center;">
+          <img src="/pitch-deck-assets/builder-photo.jpg"
+               alt="Mohamed Aneizi, founder of Sotama"
+               style="width: 280px; height: 280px; border-radius: 50%; object-fit: cover; object-position: 50% 58%; border: 4px solid var(--c-surface); box-shadow: 0 18px 44px rgba(28, 28, 30, 0.14);">
+        </div>
+
+        <div class="stack-md">
+          <div>
+            <div class="caption">Name</div>
+            <div class="h2" style="margin-top: 6px; color: var(--c-text);">Mohamed Aneizi</div>
+          </div>
+          <div>
+            <div class="caption">Background</div>
+            <p class="body" style="margin-top: 6px;">
+              I'm a CS major with deep love for building. Got into crypto
+              with mining in 2020, turned into an onchain inhabitant in 2021.
+              Now I'm turning from a consumer of dApps to a builder of the
+              next generation of technologies onchain.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li>Name, bio, photo are wired. One-line elevator if rushed: "CS major. Crypto since 2020 mining. Onchain since 2021. Building Sotama."</li>
+          <li>If a judge asks about team: solo builder. Mainnet program, keeper, frontend, tests, ops docs all by hand. The point is shipping discipline, not team size.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 9.5 — WHAT'S NEXT ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">What's next</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 14px;">
+        From one primitive<br>
+        to an open network.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-3 animate-in" style="margin-top: 24px;">
+
+        <!-- =========== PILLAR 01 — KEEPER NETWORK =========== -->
+        <div class="roadmap-card">
+          <div class="roadmap-diagram">
+            <div class="grid-bg"></div>
+            <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- Arena ring -->
+              <circle cx="150" cy="90" r="68" fill="none" stroke="#1c1c1e" stroke-opacity="0.10" stroke-dasharray="2 5"/>
+
+              <!-- Race lines from keepers to rule (losing keepers — faint) -->
+              <line class="race-line" x1="86" y1="40" x2="150" y2="90" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1"/>
+              <line class="race-line" x1="214" y1="40" x2="150" y2="90" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1" style="animation-delay: 0.4s"/>
+              <line class="race-line" x1="234" y1="100" x2="150" y2="90" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1" style="animation-delay: 0.8s"/>
+              <line class="race-line" x1="206" y1="148" x2="150" y2="90" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1" style="animation-delay: 1.2s"/>
+              <line class="race-line" x1="94" y1="148" x2="150" y2="90" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1" style="animation-delay: 1.6s"/>
+
+              <!-- Winning keeper line — bold orange -->
+              <line x1="66" y1="100" x2="150" y2="90" stroke="#D85C30" stroke-width="2"/>
+
+              <!-- Losing keepers (circles) -->
+              <circle cx="86" cy="40" r="5" fill="#fff" stroke="#1c1c1e" stroke-width="1.5"/>
+              <circle cx="214" cy="40" r="5" fill="#fff" stroke="#1c1c1e" stroke-width="1.5"/>
+              <circle cx="234" cy="100" r="5" fill="#fff" stroke="#1c1c1e" stroke-width="1.5"/>
+              <circle cx="206" cy="148" r="5" fill="#fff" stroke="#1c1c1e" stroke-width="1.5"/>
+              <circle cx="94" cy="148" r="5" fill="#fff" stroke="#1c1c1e" stroke-width="1.5"/>
+
+              <!-- Winning keeper -->
+              <circle cx="66" cy="100" r="8" fill="#D85C30"/>
+              <text x="66" y="78" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#D85C30" letter-spacing="1.5">FIRES</text>
+
+              <!-- Center rule (PDA) -->
+              <rect x="132" y="78" width="36" height="24" fill="#1c1c1e" rx="2"/>
+              <text x="150" y="93" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#fff" letter-spacing="0.8">RULE</text>
+            </svg>
+          </div>
+          <div class="caption" style="color: var(--c-primary);">01 · Keeper network</div>
+          <h3 class="h3" style="margin-top: 10px;">Many keepers race.<br>Fastest fires.</h3>
+          <p class="small" style="margin-top: 12px;">
+            Today, one keeper signs every fire. Next, a decentralized network competes
+            to detect triggers and execute first. The program still enforces every rail.
+          </p>
+        </div>
+
+        <!-- =========== PILLAR 02 — AGENT API (x402) =========== -->
+        <div class="roadmap-card">
+          <div class="roadmap-diagram">
+            <div class="grid-bg"></div>
+            <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- Agent box -->
+              <rect x="20" y="55" width="68" height="68" fill="#fff" stroke="#1c1c1e" stroke-width="1.5" rx="6"/>
+              <!-- Agent face/icon -->
+              <circle cx="54" cy="76" r="9" fill="#1c1c1e"/>
+              <rect x="42" y="92" width="24" height="3" rx="1.5" fill="#1c1c1e"/>
+              <rect x="38" y="100" width="32" height="3" rx="1.5" fill="#1c1c1e"/>
+              <rect x="42" y="108" width="24" height="3" rx="1.5" fill="#1c1c1e"/>
+              <text x="54" y="140" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" font-weight="700" letter-spacing="1.2" fill="#1c1c1e">AGENT</text>
+
+              <!-- Flow arrow -->
+              <line x1="92" y1="89" x2="208" y2="89" stroke="#1c1c1e" stroke-width="1.5" stroke-dasharray="3 4"/>
+              <polygon points="208,89 200,84 200,94" fill="#1c1c1e"/>
+
+              <!-- x402 PAY badge -->
+              <rect x="118" y="72" width="64" height="22" rx="11" fill="#D85C30"/>
+              <text x="150" y="87" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" font-weight="800" fill="#fff" letter-spacing="0.6">x402 PAY</text>
+
+              <!-- Tiny return arrow (response) -->
+              <line x1="208" y1="105" x2="92" y2="105" stroke="#1c1c1e" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="2 3"/>
+              <polygon points="92,105 100,101 100,109" fill="#1c1c1e" fill-opacity="0.35"/>
+
+              <!-- Sotama mark box -->
+              <rect x="212" y="55" width="68" height="68" fill="#fff" stroke="#1c1c1e" stroke-width="1.5" rx="6"/>
+              <g transform="translate(198, 53) scale(0.12)">
+                <path fill="#1c1c1e" d="M 300 150 L 380 150 L 380 300 L 300 380 Z"/>
+                <path fill="#1c1c1e" d="M 300 420 L 380 340 L 380 450 L 300 450 Z"/>
+                <path fill="#1c1c1e" d="M 420 150 L 500 150 L 500 180 L 420 260 Z"/>
+                <path fill="#1c1c1e" d="M 420 300 L 500 220 L 500 450 L 420 450 Z"/>
+                <path fill="#D85C30" d="M 260 446 L 260 434 L 540 154 L 540 166 Z"/>
+              </g>
+              <text x="246" y="140" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" font-weight="700" letter-spacing="1.2" fill="#1c1c1e">SOTAMA</text>
+            </svg>
+          </div>
+          <div class="caption" style="color: var(--c-primary);">02 · Agent API</div>
+          <h3 class="h3" style="margin-top: 10px;">x402-native rails<br>for AI traders.</h3>
+          <p class="small" style="margin-top: 12px;">
+            An API for AI agents to build, fund, and manage rules. Pay-per-call
+            with x402. Sotama becomes execution rails for autonomous traders.
+          </p>
+        </div>
+
+        <!-- =========== PILLAR 03 — TRIGGER MARKETPLACE =========== -->
+        <div class="roadmap-card">
+          <div class="roadmap-diagram">
+            <div class="grid-bg"></div>
+            <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- Back card -->
+              <g transform="translate(20, 28)">
+                <rect width="220" height="44" rx="6" fill="#fff" stroke="#1c1c1e" stroke-opacity="0.18" stroke-width="1.2"/>
+                <text x="14" y="18" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#1c1c1e" letter-spacing="1">@WHALE_SIGNALS</text>
+                <text x="14" y="34" font-family="ui-monospace, monospace" font-size="10" fill="#1c1c1e">wallet move · spl</text>
+                <text x="206" y="32" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#1c1c1e">0.05◎</text>
+              </g>
+
+              <!-- Middle card -->
+              <g transform="translate(40, 68)">
+                <rect width="220" height="44" rx="6" fill="#fff" stroke="#1c1c1e" stroke-opacity="0.28" stroke-width="1.2"/>
+                <text x="14" y="18" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#1c1c1e" letter-spacing="1">HELIUS</text>
+                <text x="14" y="34" font-family="ui-monospace, monospace" font-size="10" fill="#1c1c1e">nft floor break</text>
+                <text x="206" y="32" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#1c1c1e">0.10◎</text>
+              </g>
+
+              <!-- Front card — featured -->
+              <g transform="translate(60, 108)">
+                <rect width="220" height="44" rx="6" fill="#D85C30"/>
+                <text x="14" y="18" font-family="ui-monospace, monospace" font-size="8" font-weight="700" fill="#fff" letter-spacing="1">PYTH LAZER</text>
+                <text x="14" y="34" font-family="ui-monospace, monospace" font-size="10" fill="#fff">price &lt; threshold</text>
+                <text x="206" y="32" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#fff">0.02◎</text>
+              </g>
+            </svg>
+          </div>
+          <div class="caption" style="color: var(--c-primary);">03 · Trigger market</div>
+          <h3 class="h3" style="margin-top: 10px;">Data providers<br>sell signal.</h3>
+          <p class="small" style="margin-top: 12px;">
+            A marketplace where providers list specialized triggers and earn per fire.
+            The long tail of signal becomes a long tail of strategies.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li><strong>Frame:</strong> today Sotama is a product. Next, it is a network.</li>
+          <li>Keeper decentralization: competition over fire latency, slashing for failed or incorrect fires, program still enforces destination/slippage/cadence — no keeper can steal.</li>
+          <li>x402 for agents: AI traders are coming. They need execution rails that are pay-per-call and trustless. Sotama is already shaped for it.</li>
+          <li>Trigger marketplace: data providers (Pyth, Helius, custom oracles, off-chain signals) get a revenue line, users get strategies you cannot build alone.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ====================== SLIDE 10 — ASK ====================== -->
+    <div class="slide alt">
+      <span class="caption animate-in">The ask</span>
+
+      <h1 class="h1 animate-in" style="margin-top: 18px;">
+        Back the primitive.
+      </h1>
+
+      <div class="divider animate-in"></div>
+
+      <div class="grid-3 animate-in" style="margin-top: 36px;">
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">01</div>
+          <h3 class="h3" style="margin-top: 14px;">Help Sotama grow</h3>
+          <p class="small" style="margin-top: 14px;">
+            Back it for the Superteam NL side-track. Help me connect with
+            investors, builders, and organizations to take Sotama to the
+            next level.
+          </p>
+        </div>
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">02</div>
+          <h3 class="h3" style="margin-top: 14px;">Use Sotama yourself</h3>
+          <p class="small" style="margin-top: 14px;">
+            If Sotama can help you or your organization automate a certain
+            set of triggers and actions, come talk to me.
+          </p>
+        </div>
+        <div class="card">
+          <div class="caption" style="color: var(--c-primary);">03</div>
+          <h3 class="h3" style="margin-top: 14px;">Partnerships &amp; integrations</h3>
+          <p class="small" style="margin-top: 14px;">
+            Sotama can plug in platform-specific triggers and actions to
+            drive volume. If you run a protocol or a data feed, let's talk.
+          </p>
+        </div>
+      </div>
+
+      <div class="animate-in" style="margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--c-border);">
+        <div class="row-between" style="flex-wrap: wrap; gap: 24px;">
+          <div>
+            <div class="caption">Product</div>
+            <a href="https://sotama.xyz" class="h3 mono" style="margin-top: 6px; font-size: 22px; display: block; color: var(--c-text); text-decoration: none;">sotama.xyz</a>
+          </div>
+          <div>
+            <div class="caption">Code</div>
+            <a href="https://github.com/Sotama-labs/Sotama" class="h3 mono" style="margin-top: 6px; font-size: 22px; display: block; color: var(--c-text); text-decoration: none;">github.com/Sotama-labs/Sotama</a>
+          </div>
+          <div>
+            <div class="caption">Reach me</div>
+            <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
+              <a href="mailto:aneizi@sotama.xyz" class="mono" style="font-size: 19px; color: var(--c-text); text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; flex-shrink: 0;" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/>
+                  <path d="M3 7l9 6 9-6"/>
+                </svg>
+                aneizi@sotama.xyz
+              </a>
+              <a href="https://x.com/Aneizi_" class="mono" style="font-size: 19px; color: var(--c-text); text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; flex-shrink: 0;" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                @Aneizi_
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="notes-label">Speaker notes</div>
+        <ul>
+          <li><strong>Close on the line:</strong> "Sotama is the layer between strategies and the people who have them."</li>
+          <li>Three asks, all things this room can hand you tonight: word-of-mouth, a real user from their org, or a partnership/integration. Make eye contact when you say each one.</li>
+          <li>Be ready for: revenue model question (swap_fee_bps 10, time_fee 300000 lamports/day per automation, both onchain in config), and the "why crypto" defense (the trust model slide is the answer).</li>
+          <li>Both contact lines are clickable in the HTML. Anyone opening this on phone lands in Mail or X with one tap.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="prev()">← Prev</button>
+      <span class="nav-counter"><span id="current">1</span> / <span id="total">10</span></span>
+      <div class="nav-progress"><div class="nav-progress-fill" id="progress" style="width: 10%"></div></div>
+      <button class="nav-btn" onclick="next()">Next →</button>
+    </div>
+  </div>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let notesVisible = false;
+
+    document.getElementById('total').textContent = total;
+
+    function show(i) {
+      const target = Math.max(0, Math.min(i, total - 1));
+      if (target === current && slides[current].classList.contains('active')) return;
+
+      const direction = target > current ? 1 : (target < current ? -1 : 1);
+      const drift = getComputedStyle(document.documentElement)
+        .getPropertyValue('--slide-drift').trim() || '32px';
+
+      // Outgoing slide drifts in the direction of travel.
+      if (slides[current] && slides[current] !== slides[target]) {
+        slides[current].style.setProperty('--drift', `${-direction * parseFloat(drift)}px`);
+        slides[current].classList.remove('active');
+      }
+
+      // Pre-position incoming slide on the opposite side without animating into place.
+      const next = slides[target];
+      next.style.transition = 'none';
+      next.style.setProperty('--drift', `${direction * parseFloat(drift)}px`);
+      void next.offsetWidth; // commit the pre-position
+      next.style.transition = '';
+      // Reset --drift so the active rule lands at translate(0).
+      next.style.setProperty('--drift', '0px');
+      next.classList.add('active');
+
+      current = target;
+      document.getElementById('current').textContent = current + 1;
+      document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+
+      document.querySelectorAll('.notes').forEach(n => n.classList.remove('visible'));
+      const note = slides[current].querySelector('.notes');
+      if (note && notesVisible) note.classList.add('visible');
+    }
+
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+      if (e.key === 'n' || e.key === 'N') {
+        notesVisible = !notesVisible;
+        document.querySelectorAll('.notes').forEach(n => {
+          n.classList.toggle('visible', notesVisible && n.closest('.slide').classList.contains('active'));
+        });
+      }
+      if (e.key === 'p' || e.key === 'P') { window.print(); }
+    });
+
+    document.getElementById('deck').addEventListener('click', (e) => {
+      if (e.target.closest('.nav-bar') || e.target.closest('.nav-btn') || e.target.closest('.notes')) return;
+      if (e.clientX > window.innerWidth / 2) next(); else prev();
+    });
+
+    show(0);
+  </script>
+</body>
+</html>
